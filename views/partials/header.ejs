@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= typeof titulo !== 'undefined' ? titulo + ' — ' + siteName : siteName %></title>
+  <link rel="stylesheet" href="/public/css/estilos.css">
+</head>
+<body>
+  <header class="cabecera">
+    <div class="contenedor cabecera__interior">
+      <a href="/" class="cabecera__marca"><%= siteName %></a>
+      <nav class="cabecera__nav">
+        <a href="/#servicios">Servicios</a>
+        <a href="/#cotizar" class="boton boton--nav">Pedir cotización</a>
+      </nav>
+    </div>
+  </header>

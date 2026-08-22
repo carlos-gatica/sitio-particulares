@@ -1,0 +1,49 @@
+<% var titulo = servicio.titulo; %>
+<%- include('partials/header') %>
+<section class="servicio-hero">
+  <div class="contenedor">
+    <a href="/#servicios" class="servicio-hero__volver">← Todos los servicios</a>
+    <p class="hero__ficha">SERVICIO</p>
+    <h1 class="hero__titulo"><%= servicio.titulo %></h1>
+    <p class="hero__subtitulo"><%= servicio.resumen %></p>
+  </div>
+</section>
+
+<section class="servicio-detalle">
+  <div class="contenedor servicio-detalle__grilla">
+    <div class="servicio-detalle__texto">
+      <h2 class="seccion__titulo seccion__titulo--chico">Qué hacemos</h2>
+      <% servicio.descripcion.forEach(function(parrafo) { %>
+        <p><%= parrafo %></p>
+      <% }); %>
+
+      <h2 class="seccion__titulo seccion__titulo--chico">Qué incluye</h2>
+      <ul class="lista-incluye">
+        <% servicio.incluye.forEach(function(item) { %>
+          <li><%= item %></li>
+        <% }); %>
+      </ul>
+    </div>
+
+    <aside class="servicio-detalle__cta">
+      <div class="ficha-cta">
+        <h3>¿Necesitas este servicio?</h3>
+        <p>Pide una cotización y te contactamos a la brevedad.</p>
+        <a href="/#cotizar" class="boton boton--primario">Pedir cotización</a>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<section class="otros-servicios">
+  <div class="contenedor">
+    <h2 class="seccion__titulo seccion__titulo--chico">Otros servicios</h2>
+    <div class="otros-servicios__lista">
+      <% servicios.filter(function(s) { return s.slug !== servicio.slug; }).forEach(function(s) { %>
+        <a href="/servicio/<%= s.slug %>" class="otros-servicios__item"><%= s.titulo %></a>
+      <% }); %>
+    </div>
+  </div>
+</section>
+
+<%- include('partials/footer') %>
