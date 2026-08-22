@@ -4,11 +4,50 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="da671164-8eb3-4d7e-a648-9ca33e46d152" name="Changes" comment="" />
+    <list default="true" id="da671164-8eb3-4d7e-a648-9ca33e46d152" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.env.example" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sitio-particulares.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/config/servicios.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/db/pool.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/middleware/basicAuth.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/css/estilos.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/img/iconos/carpinteria.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/img/iconos/cerrajeria.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/img/iconos/construccion.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/img/iconos/electricidad.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/img/iconos/gasfiteria.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/img/iconos/pintura.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/img/iconos/remodelaciones.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/img/iconos/reparaciones.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/routes/admin.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/routes/cotizacion.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/routes/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/routes/servicio.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/services/email.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/services/whatsapp.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vercel.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/views/404.ejs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/views/admin/cotizaciones.ejs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/views/gracias.ejs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/views/index.ejs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/views/partials/footer.ejs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/views/partials/header.ejs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/views/servicio.ejs" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
@@ -26,6 +65,7 @@
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
     "codeWithMe.voiceChat.enabledByDefault": "false",
+    "git-widget-placeholder": "main",
     "ignore.virus.scanning.warn.message": "true",
     "javascript.preferred.runtime.type.id": "node",
     "last_opened_file_path": "C:/Users/JCarlos/Documents/negocios/TRACK/sitio-particulares",
@@ -57,7 +97,7 @@
       <option name="presentableId" value="Default" />
       <updated>1787381330154</updated>
       <workItem from="1787381333739" duration="4010000" />
-      <workItem from="1787386397459" duration="850000" />
+      <workItem from="1787386397459" duration="1180000" />
     </task>
     <servers />
   </component>
