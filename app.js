@@ -13,6 +13,7 @@ app.use(express.json());
 app.use('/public', express.static(path.join(__dirname, 'public')));
 
 app.use(require('./routes/index'));
+app.use(require('./routes/health'));
 app.use(require('./routes/servicio'));
 app.use(require('./routes/cotizacion'));
 app.use(require('./routes/admin'));
