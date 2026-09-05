@@ -30,13 +30,19 @@ router.post('/cotizacion', async (req, res) => {
 
     const cotizacion = result.rows[0];
 
-    // Notificaciones en paralelo, sin bloquear la respuesta al usuario
-    Promise.all([
-      notificarCotizacionPorCorreo(cotizacion),
-      notificarCotizacionPorWhatsapp(cotizacion)
-    ]).catch(err => console.error('Error en notificaciones:', err));
+      // Se espera a que ambas notificaciones terminen antes de responder,
+      // porque en Vercel (serverless) la función puede cortarse justo al enviar la respuesta,
+      // dejando notificaciones "en vuelo" sin completar (especialmente CallMeBot).
+      try {
+          await Promise.all([
+              notificarCotizacionPorCorreo(cotizacion),
+              notificarCotizacionPorWhatsapp(cotizacion)
+          ]);
+      } catch (err) {
+          console.error('Error en notificaciones:', err);
+      }
 
-    res.render('gracias', {
+      res.render('gracias', {
       siteName: process.env.SITE_NAME || 'Tu Empresa',
       nombre
     });
