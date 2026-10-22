@@ -26,7 +26,17 @@ app.use((req, res, next) => {
 app.use(express.urlencoded({ extended: true, limit: '200kb' }));
 app.use(express.json({ limit: '200kb' }));
 app.use('/public', express.static(path.join(__dirname, 'public')));
-
+// TEMPORAL: borrar después de la prueba
+app.get('/diag-admin', (req, res) => {
+  const u = process.env.ADMIN_USER || '';
+  const p = process.env.ADMIN_PASSWORD || '';
+  res.json({
+    usuario_largo: u.length,
+    usuario_con_espacios: u !== u.trim(),
+    clave_largo: p.length,
+    clave_con_espacios: p !== p.trim()
+  });
+});
 // Antes de cualquier página: tablas listas y datos comunes (nombre del sitio, ajustes).
 app.use(async (req, res, next) => {
   try {
