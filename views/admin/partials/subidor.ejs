@@ -1,0 +1,27 @@
+<%
+  // Parámetros: nombre (campo del formulario), carpeta (servicios|portafolio|banner),
+  // multiple (true/false) e inicial (lista de {url, tipo} ya guardados).
+  var _inicial = (typeof inicial !== 'undefined' && inicial) ? inicial : [];
+%>
+<div class="subidor" data-carpeta="<%= carpeta %>" data-multiple="<%= multiple ? 'true' : 'false' %>">
+  <input type="hidden" name="<%= nombre %>" class="subidor__valor" value="<%= JSON.stringify(_inicial) %>">
+
+  <div class="subidor__lista" aria-live="polite"></div>
+
+  <div class="subidor__controles">
+    <label class="boton boton--secundario subidor__boton">
+      <span><%= multiple ? 'Subir fotos o videos' : 'Subir foto o video' %></span>
+      <input type="file" class="subidor__archivo" hidden
+             accept="image/jpeg,image/png,image/webp,image/gif,video/mp4,video/webm,video/quicktime"
+             <%= multiple ? 'multiple' : '' %>>
+    </label>
+
+    <div class="subidor__youtube">
+      <input type="url" class="subidor__youtube-url" placeholder="o pega un link de YouTube" aria-label="Link de YouTube">
+      <button type="button" class="boton boton--secundario subidor__youtube-boton">Agregar link</button>
+    </div>
+  </div>
+
+  <p class="admin__ayuda">Fotos hasta 10 MB (se comprimen solas). Videos hasta 50 MB, mejor en MP4 (los de iPhone en .mov pueden no verse en todos los navegadores). Para videos largos usa un link de YouTube.</p>
+  <p class="subidor__estado" role="status"></p>
+</div>

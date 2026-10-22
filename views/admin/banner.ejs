@@ -1,0 +1,59 @@
+<%- include('partials/top') %>
+
+    <h1 class="seccion__titulo">Banner de portada (<%= slides.length %>)</h1>
+    <p class="admin__ayuda">Es el carrusel que aparece en la portada, bajo el texto principal. Muestra fotos y videos de tus proyectos; cambian solos cada pocos segundos.</p>
+
+    <% if (slides.length) { %>
+      <ul class="admin__lista">
+        <% slides.forEach(function(s, i) { %>
+          <li class="admin__item <%= s.activo ? '' : 'admin__item--inactivo' %>">
+            <div class="admin__item-miniatura">
+              <%- include('../partials/miniatura', { url: s.media_url, tipo: s.media_tipo, alt: s.titulo || '', clase: '' }) %>
+            </div>
+
+            <form action="/admin/banner/<%= s.id %>" method="POST" class="admin__item-edicion">
+              <input type="text" name="titulo" maxlength="100" placeholder="Título (opcional)" value="<%= s.titulo || '' %>" aria-label="Título">
+              <input type="text" name="subtitulo" maxlength="200" placeholder="Subtítulo (opcional)" value="<%= s.subtitulo || '' %>" aria-label="Subtítulo">
+              <input type="text" name="enlace" maxlength="300" placeholder="Enlace al hacer clic (opcional) ej: /servicio/pintura" value="<%= s.enlace || '' %>" aria-label="Enlace">
+              <label class="admin__check">
+                <input type="checkbox" name="activo" <%= s.activo ? 'checked' : '' %>>
+                <span>Visible</span>
+              </label>
+              <div class="admin__item-acciones">
+                <button type="submit" class="boton boton--mini">Guardar</button>
+                <button type="submit" formaction="/admin/banner/<%= s.id %>/mover" name="direccion" value="subir" class="boton boton--mini" <%= i === 0 ? 'disabled' : '' %> aria-label="Subir">↑</button>
+                <button type="submit" formaction="/admin/banner/<%= s.id %>/mover" name="direccion" value="bajar" class="boton boton--mini" <%= i === slides.length - 1 ? 'disabled' : '' %> aria-label="Bajar">↓</button>
+                <button type="submit" formaction="/admin/banner/<%= s.id %>/eliminar" class="boton boton--mini boton--peligro" data-confirmar="¿Quitar esta diapositiva del banner?">Eliminar</button>
+              </div>
+            </form>
+          </li>
+        <% }); %>
+      </ul>
+    <% } else { %>
+      <p>Todavía no hay diapositivas: el banner no se muestra hasta que agregues la primera.</p>
+    <% } %>
+
+    <form action="/admin/banner" method="POST" class="admin__form admin__bloque">
+      <h2 class="admin__subtitulo">Agregar al banner</h2>
+
+      <%- include('partials/subidor', { nombre: 'media', carpeta: 'banner', multiple: true, inicial: [] }) %>
+
+      <label class="formulario__campo">
+        <span>Título (opcional)</span>
+        <input type="text" name="titulo" maxlength="100" placeholder="Ej: Remodelación de baño en Providencia">
+      </label>
+
+      <label class="formulario__campo">
+        <span>Subtítulo (opcional)</span>
+        <input type="text" name="subtitulo" maxlength="200">
+      </label>
+
+      <label class="formulario__campo">
+        <span>Enlace al hacer clic (opcional)</span>
+        <input type="text" name="enlace" maxlength="300" placeholder="/servicio/pintura o https://...">
+      </label>
+
+      <button type="submit" class="boton boton--primario">Agregar al banner</button>
+    </form>
+
+<%- include('partials/bottom') %>

@@ -1,9 +1,22 @@
-<!DOCTYPE html>
+<%
+  var _titulo = typeof titulo !== 'undefined' ? titulo + ' — ' + siteName : siteName;
+  var _desc = (typeof descripcionMeta !== 'undefined' && descripcionMeta)
+    ? descripcionMeta
+    : 'Pintura, gasfitería, electricidad, remodelaciones y construcción a pequeña escala para particulares en la Región Metropolitana. Pide tu cotización.';
+%><!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><%= typeof titulo !== 'undefined' ? titulo + ' — ' + siteName : siteName %></title>
+  <title><%= _titulo %></title>
+  <meta name="description" content="<%= _desc %>">
+
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="es_CL">
+  <meta property="og:site_name" content="<%= siteName %>">
+  <meta property="og:title" content="<%= _titulo %>">
+  <meta property="og:description" content="<%= _desc %>">
+  <meta property="og:image" content="<%= baseUrl %>/public/logo-512.png">
 
   <link rel="icon" type="image/x-icon" href="/public/favicon.ico">
   <link rel="icon" type="image/png" sizes="16x16" href="/public/favicon-16x16.png">
@@ -21,9 +34,6 @@
       <a href="/" class="cabecera__marca" style="text-decoration: none !important; color: #ffffff !important; font-weight: 800; font-size: 1.25rem; letter-spacing: 0.5px; display: flex; align-items: center;">
         CARLOS GATICA CONSTRUCCIONES
       </a>
-
-
-
 
       <nav class="cabecera__nav">
         <a href="/#servicios">Servicios</a>

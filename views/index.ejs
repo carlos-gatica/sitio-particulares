@@ -3,11 +3,50 @@
 <section class="hero">
   <div class="contenedor hero__interior">
     <p class="hero__ficha">FICHA DE OFICIO — TRABAJOS PARA EL HOGAR</p>
-    <h1 class="hero__titulo">Arreglamos lo que tu casa necesita, bien hecho y sin vueltas.</h1>
-    <p class="hero__subtitulo">Pintura, gasfitería, electricidad y remodelaciones para particulares. Pides una cotización, te contactamos, coordinamos visita.</p>
+    <h1 class="hero__titulo"><%= ajustes.hero_titulo %></h1>
+    <p class="hero__subtitulo"><%= ajustes.hero_subtitulo %></p>
     <a href="#cotizar" class="boton boton--primario">Pedir cotización ahora</a>
   </div>
 </section>
+
+<% if (slides && slides.length) { %>
+<section class="banner" aria-roledescription="carrusel" aria-label="Proyectos realizados" data-carrusel>
+  <div class="banner__marco">
+    <% slides.forEach(function(s, i) {
+         var _grupo = 'banner';
+    %>
+      <div class="banner__slide<%= i === 0 ? ' is-activa' : '' %>" data-tipo="<%= s.media_tipo %>" role="group" aria-roledescription="diapositiva" aria-label="<%= (i + 1) + ' de ' + slides.length %>">
+        <% if (s.media_tipo === 'imagen') { %>
+          <img src="<%= s.media_url %>" alt="<%= s.titulo || 'Proyecto realizado' %>" class="banner__media" <%= i === 0 ? '' : 'loading="lazy"' %>>
+        <% } else if (s.media_tipo === 'video') { %>
+          <video src="<%= s.media_url %>" class="banner__media" muted playsinline preload="<%= i === 0 ? 'auto' : 'metadata' %>" aria-label="<%= s.titulo || 'Video de proyecto' %>"></video>
+        <% } else { %>
+          <img src="<%= media.ytMiniatura(s.media_url) %>" alt="<%= s.titulo || 'Video de proyecto' %>" class="banner__media" loading="lazy">
+          <button type="button" class="banner__play" data-lightbox data-grupo="<%= _grupo %>" data-tipo="youtube" data-url="<%= s.media_url %>" data-titulo="<%= s.titulo || '' %>" aria-label="Reproducir video">▶</button>
+        <% } %>
+
+        <% if (s.titulo || s.subtitulo || s.enlace) { %>
+          <div class="banner__texto">
+            <% if (s.titulo) { %><p class="banner__titulo"><%= s.titulo %></p><% } %>
+            <% if (s.subtitulo) { %><p class="banner__subtitulo"><%= s.subtitulo %></p><% } %>
+            <% if (s.enlace) { %><a href="<%= s.enlace %>" class="boton boton--nav banner__enlace">Ver más</a><% } %>
+          </div>
+        <% } %>
+      </div>
+    <% }); %>
+
+    <% if (slides.length > 1) { %>
+      <button type="button" class="banner__flecha banner__flecha--ant" aria-label="Anterior">‹</button>
+      <button type="button" class="banner__flecha banner__flecha--sig" aria-label="Siguiente">›</button>
+      <div class="banner__puntos" role="tablist" aria-label="Elegir diapositiva">
+        <% slides.forEach(function(s, i) { %>
+          <button type="button" class="banner__punto<%= i === 0 ? ' is-activo' : '' %>" aria-label="Ir a la diapositiva <%= i + 1 %>"></button>
+        <% }); %>
+      </div>
+    <% } %>
+  </div>
+</section>
+<% } %>
 
 <section id="servicios" class="servicios">
   <div class="contenedor">
@@ -15,7 +54,13 @@
     <div class="servicios__grilla">
       <% servicios.forEach(function(s) { %>
         <a href="/servicio/<%= s.slug %>" class="ficha-servicio">
-          <img src="/public/img/iconos/<%= s.icono %>" alt="" class="ficha-servicio__icono" />
+          <% if (s.media_url) { %>
+            <div class="ficha-servicio__media">
+              <%- include('partials/miniatura', { url: s.media_url, tipo: s.media_tipo, alt: s.titulo, clase: '' }) %>
+            </div>
+          <% } else { %>
+            <img src="/public/img/iconos/<%= s.icono || 'reparaciones.svg' %>" alt="" class="ficha-servicio__icono" />
+          <% } %>
           <h3 class="ficha-servicio__titulo"><%= s.titulo %></h3>
           <p class="ficha-servicio__resumen"><%= s.resumen %></p>
           <span class="ficha-servicio__link">Ver detalle →</span>
@@ -38,9 +83,16 @@
     <% } %>
 
     <form action="/cotizacion" method="POST" class="formulario">
+      <input type="hidden" name="form_ts" value="<%= typeof formTs !== 'undefined' ? formTs : '' %>">
+
+      <%# Campo trampa para bots: está escondido y las personas no lo ven ni lo llenan. %>
+      <div class="formulario__trampa" aria-hidden="true">
+        <label>No llenes este campo <input type="text" name="sitio_web" tabindex="-1" autocomplete="off"></label>
+      </div>
+
       <label class="formulario__campo">
         <span>Nombre completo *</span>
-        <input type="text" name="nombre" required>
+        <input type="text" name="nombre" maxlength="100" required>
       </label>
 
       <label class="formulario__campo">
@@ -53,7 +105,7 @@
 
       <label class="formulario__campo">
         <span>Correo electrónico *</span>
-        <input type="email" name="correo" required>
+        <input type="email" name="correo" maxlength="150" required>
       </label>
 
       <label class="formulario__campo">
@@ -61,14 +113,14 @@
         <select name="servicio_slug">
           <option value="">Selecciona (opcional)</option>
           <% servicios.forEach(function(s) { %>
-            <option value="<%= s.slug %>"><%= s.titulo %></option>
+            <option value="<%= s.slug %>" <%= (typeof servicioSel !== 'undefined' && servicioSel === s.slug) ? 'selected' : '' %>><%= s.titulo %></option>
           <% }); %>
         </select>
       </label>
 
       <label class="formulario__campo formulario__campo--ancho">
         <span>Cuéntanos qué necesitas *</span>
-        <textarea name="descripcion" rows="4" required></textarea>
+        <textarea name="descripcion" rows="4" maxlength="2000" required></textarea>
       </label>
 
       <button type="submit" class="boton boton--primario formulario__enviar">Enviar solicitud</button>

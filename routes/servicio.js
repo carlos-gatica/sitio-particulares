@@ -1,21 +1,31 @@
 const express = require('express');
 const router = express.Router();
-const servicios = require('../config/servicios');
+const contenido = require('../lib/contenido');
 
-router.get('/servicio/:slug', (req, res) => {
-  const servicio = servicios.find(s => s.slug === req.params.slug);
+// Página de detalle del servicio + portafolio de proyectos realizados.
+router.get('/servicio/:slug', async (req, res, next) => {
+  try {
+    const servicio = await contenido.servicioPorSlug(req.params.slug);
 
-  if (!servicio) {
-    return res.status(404).render('404', {
-      siteName: process.env.SITE_NAME || 'Tu Empresa'
+    if (!servicio) {
+      return res.status(404).render('404', { titulo: 'Página no encontrada' });
+    }
+
+    const [servicios, portafolio] = await Promise.all([
+      contenido.serviciosActivos(),
+      contenido.portafolioDe(servicio.id)
+    ]);
+
+    res.render('servicio', {
+      servicio,
+      servicios,
+      portafolio,
+      titulo: servicio.titulo,
+      descripcionMeta: servicio.resumen
     });
+  } catch (err) {
+    next(err);
   }
-
-  res.render('servicio', {
-    servicio,
-    servicios,
-    siteName: process.env.SITE_NAME || 'Tu Empresa'
-  });
 });
 
 module.exports = router;

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Ingresar — <%= siteName %></title>
+  <link rel="icon" type="image/x-icon" href="/public/favicon.ico">
+  <link rel="stylesheet" href="/public/css/estilos.css">
+</head>
+<body class="admin admin--login">
+  <main class="login">
+    <div class="login__caja">
+      <p class="hero__ficha">PANEL DE ADMINISTRACIÓN</p>
+      <h1 class="login__titulo"><%= siteName %></h1>
+
+      <% if (error) { %>
+        <p class="admin__aviso admin__aviso--error"><%= error %></p>
+      <% } %>
+
+      <form action="/admin/login" method="POST" class="login__form">
+        <input type="hidden" name="volver" value="<%= volver %>">
+
+        <label class="formulario__campo">
+          <span>Usuario</span>
+          <input type="text" name="usuario" autocomplete="username" autocapitalize="none" required autofocus>
+        </label>
+
+        <label class="formulario__campo">
+          <span>Clave</span>
+          <input type="password" name="clave" autocomplete="current-password" required>
+        </label>
+
+        <button type="submit" class="boton boton--primario">Ingresar</button>
+      </form>
+
+      <p class="login__volver"><a href="/">← Volver al sitio</a></p>
+    </div>
+  </main>
+</body>
+</html>

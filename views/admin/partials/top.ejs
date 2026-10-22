@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title><%= tituloAdmin %> — Panel <%= siteName %></title>
+  <link rel="icon" type="image/x-icon" href="/public/favicon.ico">
+  <link rel="stylesheet" href="/public/css/estilos.css">
+</head>
+<body class="admin">
+  <header class="cabecera admin__cabecera">
+    <div class="contenedor admin__barra">
+      <span class="admin__marca">Panel — <%= siteName %></span>
+
+      <nav class="admin__nav" aria-label="Secciones del panel">
+        <a href="/admin/cotizaciones" class="<%= seccion === 'cotizaciones' ? 'is-activa' : '' %>">Cotizaciones</a>
+        <a href="/admin/servicios" class="<%= seccion === 'servicios' ? 'is-activa' : '' %>">Servicios</a>
+        <a href="/admin/banner" class="<%= seccion === 'banner' ? 'is-activa' : '' %>">Banner</a>
+        <a href="/admin/ajustes" class="<%= seccion === 'ajustes' ? 'is-activa' : '' %>">Ajustes</a>
+      </nav>
+
+      <div class="admin__acciones">
+        <a href="/" target="_blank" rel="noopener">Ver sitio ↗</a>
+        <form action="/admin/logout" method="POST" class="admin__salir">
+          <button type="submit">Salir</button>
+        </form>
+      </div>
+    </div>
+  </header>
+
+  <main class="contenedor admin__contenido">
+    <%
+      var avisos = {
+        guardado: 'Cambios guardados.',
+        creado: 'Creado correctamente.',
+        eliminado: 'Eliminado correctamente.',
+        agregado: 'Se agregó el contenido.'
+      };
+      var avisoOk = (typeof query !== 'undefined' && query && Object.prototype.hasOwnProperty.call(avisos, query.ok)) ? avisos[query.ok] : null;
+    %>
+    <% if (avisoOk) { %>
+      <p class="admin__aviso admin__aviso--ok"><%= avisoOk %></p>
+    <% } %>
+    <% if (typeof errorAdmin !== 'undefined' && errorAdmin) { %>
+      <p class="admin__aviso admin__aviso--error"><%= errorAdmin %></p>
+    <% } %>

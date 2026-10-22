@@ -1,9 +1,8 @@
 node_modules/
 .env
+.env*
+!.env.example
 .vercel
 *.log
 .DS_Store
-   .idea/
-
-.vercel
-.env*
+.idea/

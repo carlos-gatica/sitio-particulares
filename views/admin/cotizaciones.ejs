@@ -1,19 +1,5 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cotizaciones — <%= siteName %></title>
-  <link rel="stylesheet" href="/public/css/estilos.css">
-</head>
-<body class="admin">
-  <header class="cabecera">
-    <div class="contenedor cabecera__interior">
-      <span class="cabecera__marca">Panel admin — <%= siteName %></span>
-    </div>
-  </header>
+<%- include('partials/top') %>
 
-  <main class="contenedor admin__contenido">
     <h1 class="seccion__titulo">Cotizaciones recibidas (<%= cotizaciones.length %>)</h1>
 
     <% if (cotizaciones.length === 0) { %>
@@ -34,18 +20,17 @@
           <tbody>
             <% cotizaciones.forEach(function(c) { %>
               <tr>
-                <td><%= new Date(c.creado_en).toLocaleString('es-CL') %></td>
+                <td><%= new Date(c.creado_en).toLocaleString('es-CL', { timeZone: 'America/Santiago' }) %></td>
                 <td><%= c.nombre %></td>
-                <td><a href="https://wa.me/<%= c.telefono.replace('+', '') %>" target="_blank"><%= c.telefono %></a></td>
+                <td><a href="https://wa.me/<%= c.telefono.replace('+', '') %>" target="_blank" rel="noopener"><%= c.telefono %></a></td>
                 <td><a href="mailto:<%= c.correo %>"><%= c.correo %></a></td>
-                <td><%= c.servicio_slug || '—' %></td>
-                <td><%= c.descripcion %></td>
+                <td><%= (c.servicio_slug && nombresServicio[c.servicio_slug]) || c.servicio_slug || '—' %></td>
+                <td class="admin__celda-texto"><%= c.descripcion %></td>
               </tr>
             <% }); %>
           </tbody>
         </table>
       </div>
     <% } %>
-  </main>
-</body>
-</html>
+
+<%- include('partials/bottom') %>

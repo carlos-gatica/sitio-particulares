@@ -1,0 +1,52 @@
+<%- include('partials/top') %>
+
+    <div class="admin__titular">
+      <h1 class="seccion__titulo">Servicios (<%= servicios.length %>)</h1>
+      <a href="/admin/servicios/nuevo" class="boton boton--primario">+ Agregar servicio</a>
+    </div>
+
+    <p class="admin__ayuda">Estos son los servicios de la sección "Nuestros servicios". Entra a cada uno para editar su texto, su foto o video, y su portafolio de proyectos.</p>
+
+    <% if (servicios.length === 0) { %>
+      <p>Todavía no hay servicios. Agrega el primero.</p>
+    <% } else { %>
+      <ul class="admin__lista">
+        <% servicios.forEach(function(s, i) { %>
+          <li class="admin__item <%= s.activo ? '' : 'admin__item--inactivo' %>">
+            <a href="/admin/servicios/<%= s.id %>" class="admin__item-miniatura">
+              <% if (s.media_url) { %>
+                <%- include('../partials/miniatura', { url: s.media_url, tipo: s.media_tipo, alt: s.titulo, clase: '' }) %>
+              <% } else if (s.icono) { %>
+                <img src="/public/img/iconos/<%= s.icono %>" alt="" class="admin__item-icono">
+              <% } else { %>
+                <span class="admin__item-vacio">Sin imagen</span>
+              <% } %>
+            </a>
+
+            <div class="admin__item-info">
+              <a href="/admin/servicios/<%= s.id %>" class="admin__item-titulo"><%= s.titulo %></a>
+              <p class="admin__item-meta">
+                /servicio/<%= s.slug %> · <%= s.proyectos %> proyecto<%= s.proyectos === 1 ? '' : 's' %>
+                <% if (!s.activo) { %> · <strong>Oculto en el sitio</strong><% } %>
+              </p>
+            </div>
+
+            <div class="admin__item-acciones">
+              <form action="/admin/servicios/<%= s.id %>/mover" method="POST">
+                <button type="submit" name="direccion" value="subir" class="boton boton--mini" <%= i === 0 ? 'disabled' : '' %> aria-label="Subir">↑</button>
+                <button type="submit" name="direccion" value="bajar" class="boton boton--mini" <%= i === servicios.length - 1 ? 'disabled' : '' %> aria-label="Bajar">↓</button>
+              </form>
+              <a href="/admin/servicios/<%= s.id %>" class="boton boton--mini">Editar</a>
+              <form action="/admin/servicios/<%= s.id %>/activo" method="POST">
+                <button type="submit" class="boton boton--mini"><%= s.activo ? 'Ocultar' : 'Mostrar' %></button>
+              </form>
+              <form action="/admin/servicios/<%= s.id %>/eliminar" method="POST" data-confirmar="¿Eliminar el servicio «<%= s.titulo %>» y todo su portafolio? Esta acción no se puede deshacer.">
+                <button type="submit" class="boton boton--mini boton--peligro">Eliminar</button>
+              </form>
+            </div>
+          </li>
+        <% }); %>
+      </ul>
+    <% } %>
+
+<%- include('partials/bottom') %>

@@ -1,0 +1,53 @@
+<%- include('partials/top') %>
+
+    <h1 class="seccion__titulo">Ajustes del sitio</h1>
+
+    <form action="/admin/ajustes" method="POST" class="admin__form">
+      <fieldset class="admin__bloque">
+        <legend>Portada (texto principal)</legend>
+
+        <label class="formulario__campo">
+          <span>Título</span>
+          <input type="text" name="hero_titulo" maxlength="160" value="<%= valores.hero_titulo %>">
+        </label>
+
+        <label class="formulario__campo">
+          <span>Bajada (texto bajo el título)</span>
+          <textarea name="hero_subtitulo" rows="3" maxlength="300"><%= valores.hero_subtitulo %></textarea>
+        </label>
+      </fieldset>
+
+      <fieldset class="admin__bloque">
+        <legend>WhatsApp</legend>
+
+        <label class="formulario__campo">
+          <span>Número (con código de país, sin + ni espacios)</span>
+          <input type="text" name="whatsapp" inputmode="numeric" maxlength="20" placeholder="56912345678" value="<%= valores.whatsapp %>">
+          <small class="admin__ayuda">Es el número del botón verde flotante. Ejemplo: 56912345678</small>
+        </label>
+
+        <label class="formulario__campo">
+          <span>Mensaje que aparece escrito al abrir el chat</span>
+          <input type="text" name="whatsapp_mensaje" maxlength="200" value="<%= valores.whatsapp_mensaje %>">
+        </label>
+      </fieldset>
+
+      <fieldset class="admin__bloque">
+        <legend>Redes sociales</legend>
+        <p class="admin__ayuda">Si dejas un campo vacío, ese ícono no se muestra en el sitio.</p>
+
+        <label class="formulario__campo">
+          <span>Instagram</span>
+          <input type="url" name="instagram" maxlength="200" placeholder="https://instagram.com/tu_usuario" value="<%= valores.instagram %>">
+        </label>
+
+        <label class="formulario__campo">
+          <span>Facebook</span>
+          <input type="url" name="facebook" maxlength="200" placeholder="https://facebook.com/tu_pagina" value="<%= valores.facebook %>">
+        </label>
+      </fieldset>
+
+      <button type="submit" class="boton boton--primario">Guardar ajustes</button>
+    </form>
+
+<%- include('partials/bottom') %>

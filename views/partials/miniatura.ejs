@@ -1,0 +1,4 @@
+<%
+  var _clase = (typeof clase !== 'undefined' && clase) ? clase : '';
+  var _alt = (typeof alt !== 'undefined' && alt) ? alt : '';
+%><% if (tipo === 'imagen') { %><img src="<%= url %>" alt="<%= _alt %>" class="<%= _clase %>" loading="lazy"><% } else if (tipo === 'video') { %><video src="<%= url %>#t=0.1" class="<%= _clase %>" muted playsinline preload="metadata" aria-label="<%= _alt %>"></video><% } else if (tipo === 'youtube') { %><img src="<%= media.ytMiniatura(url) %>" alt="<%= _alt %>" class="<%= _clase %>" loading="lazy"><% } %>

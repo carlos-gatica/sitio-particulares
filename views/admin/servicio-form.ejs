@@ -1,0 +1,110 @@
+<%- include('partials/top') %>
+
+    <p><a href="/admin/servicios">← Volver a servicios</a></p>
+
+    <h1 class="seccion__titulo"><%= nuevo ? 'Nuevo servicio' : 'Editar: ' + servicio.titulo %></h1>
+
+    <form action="<%= nuevo ? '/admin/servicios' : '/admin/servicios/' + servicio.id %>" method="POST" class="admin__form">
+
+      <fieldset class="admin__bloque">
+        <legend>Datos del servicio</legend>
+
+        <label class="formulario__campo">
+          <span>Título *</span>
+          <input type="text" name="titulo" maxlength="80" required value="<%= servicio.titulo %>">
+        </label>
+
+        <label class="formulario__campo">
+          <span>Resumen (se ve en la tarjeta de la portada)</span>
+          <textarea name="resumen" rows="2" maxlength="200"><%= servicio.resumen %></textarea>
+        </label>
+
+        <label class="formulario__campo">
+          <span>Descripción (qué hacemos)</span>
+          <textarea name="descripcion" rows="6" maxlength="3000"><%= servicio.descripcion %></textarea>
+          <small class="admin__ayuda">Separa los párrafos con una línea en blanco.</small>
+        </label>
+
+        <label class="formulario__campo">
+          <span>Qué incluye</span>
+          <textarea name="incluye" rows="5" maxlength="1500"><%= servicio.incluye %></textarea>
+          <small class="admin__ayuda">Un ítem por línea.</small>
+        </label>
+
+        <label class="formulario__campo">
+          <span>Dirección web (opcional)</span>
+          <input type="text" name="slug" maxlength="60" placeholder="se genera sola a partir del título" value="<%= servicio.slug %>">
+          <small class="admin__ayuda">Es la parte final del link: /servicio/<strong>esto</strong>. Si la cambias, los links antiguos dejan de funcionar.</small>
+        </label>
+
+        <label class="admin__check">
+          <input type="checkbox" name="activo" <%= servicio.activo ? 'checked' : '' %>>
+          <span>Mostrar este servicio en el sitio</span>
+        </label>
+      </fieldset>
+
+      <fieldset class="admin__bloque">
+        <legend>Foto o video de la tarjeta</legend>
+        <p class="admin__ayuda">Reemplaza al ícono en "Nuestros servicios". Si no subes nada, se usa el ícono.</p>
+        <%- include('partials/subidor', {
+              nombre: 'media',
+              carpeta: 'servicios',
+              multiple: false,
+              inicial: servicio.media_url ? [{ url: servicio.media_url, tipo: servicio.media_tipo }] : []
+            }) %>
+      </fieldset>
+
+      <button type="submit" class="boton boton--primario"><%= nuevo ? 'Crear servicio' : 'Guardar cambios' %></button>
+    </form>
+
+    <% if (!nuevo) { %>
+      <section id="portafolio" class="admin__seccion">
+        <h2 class="seccion__titulo seccion__titulo--chico">Portafolio de proyectos realizados (<%= portafolio.length %>)</h2>
+        <p class="admin__ayuda">Esto se ve al hacer clic en "Ver detalle" de este servicio.</p>
+
+        <% if (portafolio.length) { %>
+          <ul class="admin__lista">
+            <% portafolio.forEach(function(p, i) { %>
+              <li class="admin__item">
+                <div class="admin__item-miniatura">
+                  <%- include('../partials/miniatura', { url: p.media_url, tipo: p.media_tipo, alt: p.titulo || '', clase: '' }) %>
+                </div>
+
+                <form action="/admin/portafolio/<%= p.id %>" method="POST" class="admin__item-edicion">
+                  <input type="text" name="titulo" maxlength="100" placeholder="Título (opcional)" value="<%= p.titulo || '' %>" aria-label="Título">
+                  <input type="text" name="descripcion" maxlength="300" placeholder="Descripción corta (opcional)" value="<%= p.descripcion || '' %>" aria-label="Descripción">
+                  <div class="admin__item-acciones">
+                    <button type="submit" class="boton boton--mini">Guardar</button>
+                    <button type="submit" formaction="/admin/portafolio/<%= p.id %>/mover" name="direccion" value="subir" class="boton boton--mini" <%= i === 0 ? 'disabled' : '' %> aria-label="Subir">↑</button>
+                    <button type="submit" formaction="/admin/portafolio/<%= p.id %>/mover" name="direccion" value="bajar" class="boton boton--mini" <%= i === portafolio.length - 1 ? 'disabled' : '' %> aria-label="Bajar">↓</button>
+                    <button type="submit" formaction="/admin/portafolio/<%= p.id %>/eliminar" class="boton boton--mini boton--peligro" data-confirmar="¿Eliminar este elemento del portafolio?">Eliminar</button>
+                  </div>
+                </form>
+              </li>
+            <% }); %>
+          </ul>
+        <% } %>
+
+        <form action="/admin/servicios/<%= servicio.id %>/portafolio" method="POST" class="admin__form admin__bloque">
+          <h3 class="admin__subtitulo">Agregar proyectos</h3>
+
+          <%- include('partials/subidor', { nombre: 'media', carpeta: 'portafolio', multiple: true, inicial: [] }) %>
+
+          <label class="formulario__campo">
+            <span>Título (opcional, se aplica a lo que subas ahora)</span>
+            <input type="text" name="titulo" maxlength="100" placeholder="Ej: Pintura exterior casa en Ñuñoa">
+          </label>
+
+          <label class="formulario__campo">
+            <span>Descripción corta (opcional)</span>
+            <input type="text" name="descripcion" maxlength="300">
+          </label>
+
+          <button type="submit" class="boton boton--primario">Agregar al portafolio</button>
+        </form>
+      </section>
+    <% } else { %>
+      <p class="admin__ayuda">Cuando guardes el servicio podrás agregarle su portafolio de proyectos.</p>
+    <% } %>
+
+<%- include('partials/bottom') %>
