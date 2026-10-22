@@ -6,7 +6,15 @@ const esLocal = /@(localhost|127\.0\.0\.1)(:|\/|$)/.test(process.env.DATABASE_UR
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
-  ssl: esLocal ? false : { rejectUnauthorized: false }
+  ssl: esLocal ? false : { rejectUnauthorized: false },
+  max: 3,                        // pocas conexiones: en Vercel cada instancia abre las suyas
+  idleTimeoutMillis: 10000,      // cierra las inactivas antes de que Supabase las corte
+  connectionTimeoutMillis: 10000 // no esperar indefinidamente al conectar
+});
+
+// Sin este manejador, una conexión cortada por Supabase tumba todo el servidor.
+pool.on('error', err => {
+  console.error('Conexión inactiva de la base de datos falló:', err.message);
 });
 
 // Crea las tablas si no existen. Es idempotente: se puede ejecutar en cada arranque.
